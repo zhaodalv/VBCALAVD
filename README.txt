@@ -37,6 +37,10 @@ All support Python module files and sh file is in the "Script" directory
 Support files: COSMIC annotation file, polishing file and back genomic list region are in the Script/bed_file. if you build polishing database, you should use the polishing-code/polishing_step.py and put the database into the Script/bed_file/polishing
  
 
+Requirement:
+Python2.7.11 above; python modules: ast,pysam,collections,pandas,pickle,numpy,scipy,argparse
+
+
 Parameters and Usage:
 Parameters:
 -h, --help
