@@ -44,7 +44,7 @@ python ${SCRIPT_PATH}/singleton_ratio_fdr.py -mutation ${OUT_RESULT}/Mutation_in
 
 BACKLIST_tar=(${SCRIPT_PATH}/bed_file/Backlist_region/*tar)
 if [ -f $BACKLIST_tar ]; then 
-tar -xzvf ${BACKLIST_tar}
+tar -xzvf ${BACKLIST_tar} -C ${SCRIPT_PATH}/bed_file/Backlist_region
 fi
 
 BACKLIST=(${SCRIPT_PATH}/bed_file/Backlist_region/*.bed)
