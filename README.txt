@@ -39,7 +39,7 @@ Support files: COSMIC annotation file, polishing file and back genomic list regi
 
 Requirement:
 Python2.7.11 above; python modules: ast,pysam,collections,pandas,pickle,numpy,scipy,argparse
-In the directory Script/bed_file/*/*tar.gz file, you need run the code before runing the whole pipleline: tar -xzvf xxx.tar.gz
+
 
 Parameters and Usage:
 Parameters:
