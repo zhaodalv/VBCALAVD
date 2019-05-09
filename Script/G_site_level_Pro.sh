@@ -42,12 +42,14 @@ cat ${OUT_RESULT}/Candidate/*.candidate > ${OUT_RESULT}/Candidate/candidate.txt
 #add a control flow
 python ${SCRIPT_PATH}/singleton_ratio_fdr.py -mutation ${OUT_RESULT}/Mutation_input -candidate ${OUT_RESULT}/Candidate/candidate.txt -cutoff_P ${CUTOFF_P_VALUE} ${OUT_RESULT}/Candidate/candidate_for_virtual_family ${OUT_RESULT}/Candidate/Vsingleton_filter_candidates
 
-BACKLIST_tar=(${SCRIPT_PATH}/bed_file/Backlist_region/*tar)
-if [ -f $BACKLIST_tar ]; then 
-tar -xzvf ${BACKLIST_tar} -C ${SCRIPT_PATH}/bed_file/Backlist_region
+
+BACKLIST_tar=(${SCRIPT_PATH}/bed_file/Backlist_region/*)
+if [ ! -d ${SCRIPT_PATH}/bed_file/Backlist_region/region_files ] && [ -f $BACKLIST_tar ]; then 
+mkdir -p ${SCRIPT_PATH}/bed_file/Backlist_region/region_files
+tar -xzvf ${BACKLIST_tar} -C ${SCRIPT_PATH}/bed_file/Backlist_region/region_files
 fi
 
-BACKLIST=(${SCRIPT_PATH}/bed_file/Backlist_region/*.bed)
+BACKLIST=(${SCRIPT_PATH}/bed_file/Backlist_region/region_files/*)
 
 bedtools intersect -a ${OUT_RESULT}/Candidate/candidate_for_virtual_family -b ${BACKLIST[@]} -v >${OUT_RESULT}/Candidate/candidate_after_process
 
