@@ -20,7 +20,7 @@ def get_family(samfile,chromosome,position,minquality=30,mq=30,withtag=''):
     virtual_strand =collections.defaultdict(list)
     qname= collections.defaultdict(list)
     
-    for pileupcolumn in samfile.pileup(chromosome, position-1, position,max_depth=100000,truncate=True):
+    for pileupcolumn in samfile.pileup(chromosome, position-1, position,max_depth=100000,truncate=True,stepper="nofilter"):
         for pileupread in pileupcolumn.pileups:
             if not pileupread.is_del and not pileupread.is_refskip and pileupread.alignment.is_proper_pair:
                 if pileupread.alignment.query_qualities[pileupread.query_position]< minquality:
@@ -29,7 +29,7 @@ def get_family(samfile,chromosome,position,minquality=30,mq=30,withtag=''):
                     continue
                 qname[pileupread.alignment.qname].append(pileupread.alignment.query_sequence[pileupread.query_position])
 
-    for pileupcolumn in samfile.pileup(chromosome, position-1, position,max_depth=100000,truncate=True):
+    for pileupcolumn in samfile.pileup(chromosome, position-1, position,max_depth=100000,truncate=True,stepper="nofilter"):
         for pileupread in pileupcolumn.pileups:
             if withtag:
                 templen=abs(pileupread.alignment.template_length)
@@ -164,21 +164,21 @@ def main():
                print (*all_info,sep="\t")  
              
     elif "ihgvs" in vars(args).keys():
-       pattern = re.compile("[0-9]+|[ATCG]$")
+       pattern = re.compile("[0-9]+|[ATCG]")
        with xopen(args.ihgvs,'r') as f:
            for line in f:
                in_data =pattern.findall(line.strip())
                family_info = get_family(samfile,data[0],int(data[1]),args.basequality,args.mappingquality,args.UMI)
-               var_info = get_var_info(family_info,data[4],args.familyratio)
-               all_info = data[0:5].extend(var_info)
-               print (*all_info,sep="\t")  
+               var_info = get_var_info(family_info,data[3],args.familyratio)
+               in_data.extend(var_info)
+               print (*in_data,sep="\t")  
     else:
-       pattern = re.compile("[0-9]+|[ATCG]$")
+       pattern = re.compile("[0-9]+|[ATCG]")
        in_data =pattern.findall(args.isite)
-       family_info = get_family(samfile,data[0],int(data[1]),args.basequality,args.mappingquality,args.UMI)
-       var_info = get_var_info(family_info,data[4],args.familyratio)
-       all_info = data[0:5].extend(var_info)
-       print (*all_info,sep="\t")  
+       family_info = get_family(samfile,in_data[0],int(in_data[1]),args.basequality,args.mappingquality,args.UMI)
+       var_info = get_var_info(family_info,in_data[3],args.familyratio)
+       in_data.extend(var_info)
+       print (*in_data,sep='\t')  
     samfile.close()
     
 if __name__=='__main__':
