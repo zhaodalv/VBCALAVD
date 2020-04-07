@@ -168,8 +168,8 @@ def main():
        with xopen(args.ihgvs,'r') as f:
            for line in f:
                in_data =pattern.findall(line.strip())
-               family_info = get_family(samfile,data[0],int(data[1]),args.basequality,args.mappingquality,args.UMI)
-               var_info = get_var_info(family_info,data[3],args.familyratio)
+               family_info = get_family(samfile,in_data[0],int(in_data[1]),args.basequality,args.mappingquality,args.UMI)
+               var_info = get_var_info(family_info,in_data[3],args.familyratio)
                in_data.extend(var_info)
                print (*in_data,sep="\t")  
     else:
